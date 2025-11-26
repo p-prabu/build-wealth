@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>விளையாட்டுகள் பற்றி வாசிப்பு</title>
+  <style>
+    body {
+      font-family: "Noto Sans Tamil", "Arial", sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+      line-height: 1.6;
+      color: #1a1a1a;
+      background: radial-gradient(circle at 10% 10%, #f8f9ff 0, #fff 40%);
+    }
+    h1, h2 {
+      color: #1b3b5f;
+    }
+    /* Coin toss game styles */
+    .game-container {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 500px;
+      border-top: 5px solid #ff9933;
+      margin: 0 auto 28px;
+      text-align: center;
+    }
+    .game-container h1 {
+      color: #333;
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+    .rules-box {
+      background-color: #fff3cd;
+      border: 1px solid #ffeeba;
+      color: #856404;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      text-align: left;
+      font-size: 14px;
+    }
+    .rules-box h3 {
+      margin-top: 0;
+      color: #856404;
+      font-size: 16px;
+      border-bottom: 1px solid #ffeeba;
+      padding-bottom: 5px;
+      margin-bottom: 10px;
+    }
+    .rules-box ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+    .rules-box li {
+      margin-bottom: 5px;
+    }
+    .input-group {
+      margin-bottom: 15px;
+      text-align: left;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #555;
+    }
+    .mode-selection {
+      display: flex;
+      gap: 15px;
+      margin-top: 5px;
+      background: #f9f9f9;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #eee;
+    }
+    .mode-selection label {
+      font-weight: normal;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin: 0;
+      font-size: 14px;
+    }
+    input[type="number"], select {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+    input:focus, select:focus {
+      border-color: #138808;
+      outline: none;
+    }
+    button {
+      background: linear-gradient(to right, #ff9933, #ffcc00);
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      font-size: 18px;
+      border-radius: 25px;
+      cursor: pointer;
+      width: 100%;
+      font-weight: bold;
+      transition: transform 0.2s;
+      margin-top: 10px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    }
+    button:hover {
+      transform: scale(1.02);
+    }
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .coin-stage {
+      height: 120px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 20px 0;
+      perspective: 1000px;
+    }
+    .coin {
+      width: 80px;
+      height: 80px;
+      background-color: #ffd700;
+      border-radius: 50%;
+      border: 4px solid #e6c200;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      font-size: 24px;
+      color: #b8860b;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: transform 0.1s;
+      position: relative;
+      cursor: pointer;
+      user-select: none;
+    }
+    .coin:hover {
+      box-shadow: 0 0 15px #ffd700;
+    }
+    .coin.disabled {
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+    .animate-flip {
+      animation: flip 0.2s infinite linear;
+    }
+    @keyframes flip {
+      0% { transform: rotateY(0); }
+      100% { transform: rotateY(360deg); }
+    }
+    .instruction-text {
+      color: #d32f2f;
+      font-weight: bold;
+      margin-bottom: 10px;
+      min-height: 24px;
+    }
+    .result-log {
+      text-align: left;
+      margin-top: 20px;
+      max-height: 200px;
+      overflow-y: auto;
+      border-top: 1px solid #eee;
+      padding-top: 10px;
+    }
+    .log-entry {
+      padding: 8px;
+      border-bottom: 1px solid #f0f0f0;
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .win { color: #138808; font-weight: bold; }
+    .loss { color: #d32f2f; font-weight: bold; }
+    .total-display {
+      font-size: 20px;
+      font-weight: bold;
+      margin-top: 15px;
+      color: #333;
+      background: #f9f9f9;
+      padding: 10px;
+      border-radius: 8px;
+    }
+    .final-result {
+      display: none;
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 10px;
+      border: 2px dashed;
+    }
+    .final-profit {
+      background-color: #e8f5e9;
+      border-color: #138808;
+      color: #138808;
+    }
+    .final-loss {
+      background-color: #ffebee;
+      border-color: #d32f2f;
+      color: #d32f2f;
+    }
+    .card {
+      background: #ffffff;
+      border: 1px solid #e0e7ff;
+      border-radius: 12px;
+      padding: 16px 18px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+      margin-bottom: 18px;
+    }
+    ul {
+      padding-left: 20px;
+    }
+    .highlight {
+      background: #f0f4ff;
+      border-left: 4px solid #4a7dff;
+      padding: 12px 14px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="game-container">
+    <h1>₹ Lucky Coin Toss</h1>
+
+    <div class="rules-box">
+      <h3>📜 Game Rules</h3>
+      <ul>
+        <li><strong>Investment:</strong> Choose an amount to start.</li>
+        <li><strong>HEADS (🦁):</strong> You get <strong>+50% Profit</strong>.</li>
+        <li><strong>FLOWER (🌸):</strong> You get <strong>-40% Loss</strong>.</li>
+        <li><strong>Mode:</strong> Select Manual or Automatic below.</li>
+      </ul>
+    </div>
+
+    <div class="input-group">
+      <label>Enter Original Amount (₹):</label>
+      <input type="number" id="initialAmount" placeholder="e.g. 1000">
+    </div>
+
+    <div class="input-group">
+      <label>How many tries?</label>
+      <select id="triesSelect">
+        <option value="5">5 Times</option>
+        <option value="10">10 Times</option>
+        <option value="15">15 Times</option>
+      </select>
+    </div>
+
+    <div class="input-group">
+      <label>Select Game Mode:</label>
+      <div class="mode-selection">
+        <label>
+          <input type="radio" name="gameMode" value="manual" checked>
+          Manual (Click Coin)
+        </label>
+        <label>
+          <input type="radio" name="gameMode" value="auto">
+          Automatic
+        </label>
+      </div>
+    </div>
+
+    <button onclick="startGame()" id="btnPlay">Start Game</button>
+
+    <p id="gameInstruction" class="instruction-text"></p>
+
+    <div class="coin-stage">
+      <div id="coin" class="coin disabled" onclick="handleCoinClick()">₹</div>
+    </div>
+
+    <div class="total-display">
+      Current Balance: <span id="currentBalance">₹0</span>
+    </div>
+
+    <div id="finalResult" class="final-result">
+      <h3 id="finalTitle">Game Over</h3>
+      <p id="finalMessage"></p>
+    </div>
+
+    <div class="result-log" id="resultLog">
+    </div>
+  </div>
+
+  <h1>விளையாட்டுகள் பற்றி வாசிப்பு</h1>
+  <div class="card">
+    <p>பேராசிரியர் ஓலே பீட்டர் முன் மொழியும் எளிய காயின் டாஸ் உதாரணத்தைப் பார்ப்போம். நீங்கள் ஒரு நாணயத்தை டாஸ் செய்த பின், அது தலையாக இருந்தால் நீங்கள் 50% லாபத்தையும், அது பூவாக இருந்தால் 40% நஷ்டத்தை அடைவீர்கள் என்று வைத்துக்கொள்வோம். நீங்கள் ₹100 உடன் இந்த பெட்டை தொடங்கினால், நம்மில் பெரும்பாலானோர் இதற்கு உடன் படுவோம்.</p>
+    <p>போதுமான முறை பந்தயம் கட்டினால், அன்றைய தினம் நல்ல லாபம் கிடைக்கும் என்று நாம் நம்புகிறோம். ஆனால் நடைமுறையில் நீங்கள் 100 முறை பந்தயம் கட்டினால், உங்கள் வசம் உள்ள பணத்தின் மதிப்பு ₹0 க்கு அருகில் இருக்கும்.</p>
+    <p>காரணம், நீங்கள் முதல் டாஸை வென்று ₹50ஐ ஈட்டி, இரண்டாவது டாஸை இழந்தால், உங்கள் நிகர மதிப்பு ₹90 ஆக இருக்கும். நீங்கள் முதல் டாஸை இழந்து இரண்டாவது டாஸை வென்றால், அப்போதும் உங்கள் நிகர மதிப்பு ₹90 ஆக இருக்கும். நீங்கள் இந்த விளையாட்டை 10 டாஸ்களுக்கு மீண்டும் செய்து, அவற்றில் ஐந்து டாஸ்களை வென்று, ஐந்து டாஸ்களை இழந்தால், உங்கள் வசம் உள்ள பணத்தின் மதிப்பு ₹59 ஆக இருக்கும்.</p>
+    <p>எனவே, நீங்கள் எவ்வளவு அதிகமாக இந்த வகை பந்தயத்தில் ஈடுபடுகிறீர்களோ அவ்வளவு அதிகமாக, நீங்கள் பெறுவதை விட அதிகமாக இழக்க நேரிடும்.</p>
+    <p>காரணம், உங்கள் மூலதனத்தில் 40% இழந்தால், இழப்புகளைத் திரும்பப் பெற்று முழுமையாக மாற சுமார் 67% அதிகரிப்பு தேவைப்படும். 10 நபர்கள் ஒரே நேரத்தில் இந்த சூதாட்டத்தை ஆடினால், அவர்களில் பெரும் பகுதியினர் நேர்மறையான முடிவுகளைப் பெறுவார்கள்.</p>
+    <p>இருப்பினும், அவர்கள் இதை தொடரும் போது, அனைவரும் இறுதியில் நஷ்டத்தை எதிர்கொள்வார்கள் என்பது உறுதி. இதேபோல், சந்தைகளில் ஒரு முதலீட்டாளர் அதிக ஆபத்து, அதிக வெகுமதி உத்தியைத் தேர்வு செய்ய முடிவு செய்யும் போது, அவர் இயல்பாகவே அத்தகைய சூதாட்டத்தை மேற்கொள்கிறார். அங்கு அவர் பெரிய வெற்றியாளர்களைத் துரத்த முயற்சிக்கும் போது அவருக்கு அதிக ஆபத்து உள்ளது.</p>
+  </div>
+
+  <h2>எளிய விளக்கம்</h2>
+  <div class="highlight">
+    <ul>
+      <li>ஒரு டாஸ் வெற்றி = 50% உயர்வு; ஒரு டாஸ் தோல்வி = 40% குறைவு.</li>
+      <li>₹100 → வெற்றி (₹150), அடுத்ததாக தோல்வி (₹90) அல்லது மாறாக (₹90) இரண்டிலும் ஒரே முடிவு.</li>
+      <li>10 டாஸ்களில் 5 வெற்றி, 5 தோல்வி என்றாலும் ₹59 மட்டுமே மீதும்.</li>
+      <li>40% குறைப்பு வந்தால் மீண்டும் சமமாக்க 67% உயர்வு தேவை என்பதால் நீண்ட காலத்தில் மதிப்பு குறைய வாய்ப்பு அதிகம்.</li>
+    </ul>
+  </div>
+  <script>
+    // Global Game State
+    let currentAmount = 0;
+    let originalStartAmount = 0;
+    let totalTries = 0;
+    let currentTriesCount = 0;
+    let isGameActive = false;
+    let isSpinning = false;
+    let gameMode = "manual"; // 'manual' or 'auto'
+
+    function startGame() {
+      const amountInput = document.getElementById("initialAmount").value;
+      const triesInput = document.getElementById("triesSelect").value;
+
+      const modes = document.getElementsByName("gameMode");
+      for (let mode of modes) {
+        if (mode.checked) {
+          gameMode = mode.value;
+        }
+      }
+
+      currentAmount = parseFloat(amountInput);
+      originalStartAmount = parseFloat(amountInput);
+      totalTries = parseInt(triesInput, 10);
+
+      if (isNaN(currentAmount) || currentAmount <= 0) {
+        alert("Please enter a valid amount greater than 0.");
+        return;
+      }
+
+      currentTriesCount = 0;
+      isGameActive = true;
+      isSpinning = false;
+
+      document.getElementById("resultLog").innerHTML = "";
+      const resultBox = document.getElementById("finalResult");
+      resultBox.style.display = "none";
+      resultBox.className = "final-result";
+
+      document.getElementById("currentBalance").innerText = "₹" + currentAmount.toFixed(2);
+
+      document.getElementById("btnPlay").disabled = true;
+      document.getElementById("initialAmount").disabled = true;
+      document.getElementById("triesSelect").disabled = true;
+      const radioBtns = document.getElementsByName("gameMode");
+      for (let i = 0; i < radioBtns.length; i++) {
+        radioBtns[i].disabled = true;
+      }
+
+      const coin = document.getElementById("coin");
+      coin.classList.remove("disabled");
+      coin.style.backgroundColor = "#ffd700";
+      document.getElementById("btnPlay").innerText = "Game in Progress...";
+
+      if (gameMode === "manual") {
+        coin.innerText = "Click Me";
+        updateInstruction("👉 Click the Coin to Flip!");
+      } else {
+        coin.innerText = "Auto";
+        coin.style.cursor = "default";
+        updateInstruction("🔄 Starting Automatic Mode...");
+        setTimeout(executeSpin, 1000);
+      }
+    }
+
+    function handleCoinClick() {
+      if (!isGameActive || isSpinning) return;
+      if (gameMode !== "manual") return;
+      executeSpin();
+    }
+
+    function executeSpin() {
+      isSpinning = true;
+      const coinElement = document.getElementById("coin");
+
+      updateInstruction("Spinning... Wait 5 seconds!");
+      coinElement.innerText = "";
+      coinElement.classList.add("animate-flip");
+
+      setTimeout(() => {
+        resolveFlip();
+      }, 5000);
+    }
+
+    function resolveFlip() {
+      const coinElement = document.getElementById("coin");
+      coinElement.classList.remove("animate-flip");
+
+      currentTriesCount++;
+
+      const isHeads = Math.random() < 0.5;
+
+      let resultText = "";
+      let changeAmount = 0;
+      let resultClass = "";
+
+      if (isHeads) {
+        changeAmount = currentAmount * 0.50;
+        currentAmount = currentAmount + changeAmount;
+        resultText = "HEADS";
+        coinElement.innerText = "🦁";
+        coinElement.style.backgroundColor = "#ffd700";
+        resultClass = "win";
+      } else {
+        changeAmount = currentAmount * 0.40;
+        currentAmount = currentAmount - changeAmount;
+        resultText = "FLOWER";
+        coinElement.innerText = "🌸";
+        coinElement.style.backgroundColor = "#e0e0e0";
+        resultClass = "loss";
+      }
+
+      document.getElementById("currentBalance").innerText = "₹" + currentAmount.toFixed(2);
+
+      const logDiv = document.getElementById("resultLog");
+      const logEntry = document.createElement("div");
+      logEntry.className = "log-entry";
+      const changeSymbol = isHeads ? "+" : "-";
+      const changePercent = isHeads ? "50%" : "40%";
+
+      logEntry.innerHTML = `
+                <span>#${currentTriesCount} <strong>${resultText}</strong> (${changeSymbol}${changePercent})</span>
+                <span class="${resultClass}">₹${currentAmount.toFixed(2)}</span>
+            `;
+      logDiv.prepend(logEntry);
+
+      if (currentTriesCount >= totalTries) {
+        endGame();
+      } else {
+        if (gameMode === "manual") {
+          isSpinning = false;
+          updateInstruction(\`Try ${currentTriesCount} complete. Click again! (${totalTries - currentTriesCount} left)\`);
+        } else {
+          updateInstruction(\`Try ${currentTriesCount} complete. Next spin in 1s...\`);
+          setTimeout(executeSpin, 1500);
+        }
+      }
+    }
+
+    function endGame() {
+      isGameActive = false;
+      isSpinning = false;
+
+      const coin = document.getElementById("coin");
+      coin.innerText = "Done";
+      coin.classList.add("disabled");
+      coin.style.cursor = "pointer";
+      updateInstruction("Game Over!");
+
+      document.getElementById("btnPlay").disabled = false;
+      document.getElementById("btnPlay").innerText = "Play New Game";
+      document.getElementById("initialAmount").disabled = false;
+      document.getElementById("triesSelect").disabled = false;
+      const radioBtns = document.getElementsByName("gameMode");
+      for (let i = 0; i < radioBtns.length; i++) {
+        radioBtns[i].disabled = false;
+      }
+
+      const diff = currentAmount - originalStartAmount;
+      const resultBox = document.getElementById("finalResult");
+      const title = document.getElementById("finalTitle");
+      const msg = document.getElementById("finalMessage");
+
+      resultBox.style.display = "block";
+
+      if (diff >= 0) {
+        resultBox.classList.add("final-profit");
+        title.innerText = "🎉 Congratulations!";
+        msg.innerHTML = `You made a profit of <strong>₹${diff.toFixed(2)}</strong>`;
+      } else {
+        resultBox.classList.add("final-loss");
+        title.innerText = "📉 Hard Luck!";
+        msg.innerHTML = `You lost <strong>₹${Math.abs(diff).toFixed(2)}</strong>`;
+      }
+    }
+
+    function updateInstruction(text) {
+      document.getElementById("gameInstruction").innerText = text;
+    }
+  </script>
+</body>
+</html>
