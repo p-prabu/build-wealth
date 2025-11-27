@@ -2,129 +2,276 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Market Capitalization – Visual + Calculator (Tamil+English)</title>
+  <title>What is a Share & Market Cap – Tamil + English</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
+    /* ---------- Global ---------- */
+    :root {
+      --bg-page: #f5f5f7;
+      --bg-card: #ffffff;
+      --bg-soft: #f3f4f6;
+      --border-soft: #e5e7eb;
+      --text-main: #111827;
+      --text-muted: #4b5563;
+      --accent-blue: #2563eb;
+      --accent-green: #16a34a;
+      --accent-soft: #eff6ff;
+      --radius-xl: 22px;
+      --shadow-soft: 0 12px 32px rgba(15, 23, 42, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       margin: 0;
       padding: 0;
-      background: #0f172a;
-      color: #e5e7eb;
+      background: var(--bg-page);
+      color: var(--text-main);
       display: flex;
       justify-content: center;
       align-items: flex-start;
       min-height: 100vh;
     }
+
     .page {
-      max-width: 960px;
+      max-width: 980px;
       width: 100%;
-      padding: 24px 16px 48px;
+      padding: 24px 16px 40px;
     }
+
     .card {
-      background: radial-gradient(circle at top left, #1f2937, #020617);
-      border-radius: 24px;
-      padding: 24px;
-      box-shadow: 0 18px 45px rgba(0,0,0,0.55);
-      border: 1px solid rgba(148,163,184,0.3);
+      background: var(--bg-card);
+      border-radius: var(--radius-xl);
+      padding: 24px 20px 28px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid var(--border-soft);
     }
+
     h1, h2, h3 {
-      margin: 0 0 12px;
-      color: #f9fafb;
+      margin: 0 0 10px;
+      color: var(--text-main);
     }
+
     h1 {
-      font-size: 1.8rem;
+      font-size: 1.9rem;
       text-align: center;
     }
-    p {
-      margin: 8px 0 12px;
-      line-height: 1.6;
-      color: #cbd5f5;
+
+    h2 {
+      font-size: 1.3rem;
+      margin-top: 18px;
     }
+
+    h3 {
+      font-size: 1.05rem;
+      margin-top: 14px;
+    }
+
+    p {
+      margin: 6px 0 10px;
+      line-height: 1.7;
+      color: var(--text-muted);
+      font-size: 0.96rem;
+    }
+
+    ul {
+      margin: 6px 0 10px 20px;
+      padding: 0;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
     .pill {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 4px 10px;
+      padding: 4px 11px;
       border-radius: 999px;
-      border: 1px solid rgba(148,163,184,0.4);
+      border: 1px solid #d1d5db;
       font-size: 0.8rem;
       text-transform: uppercase;
-      letter-spacing: 0.06em;
-      margin-bottom: 12px;
-      color: #e5e7eb;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+      background: #ffffff;
+      color: #374151;
     }
+
     .pill span.icon {
       font-size: 1rem;
     }
+
     .hero-formula {
-      margin: 16px 0 20px;
-      padding: 16px;
+      margin: 16px 0 18px;
+      padding: 14px 16px;
       border-radius: 18px;
-      background: rgba(15,23,42,0.85);
-      border: 1px solid rgba(96,165,250,0.4);
+      background: var(--accent-soft);
+      border: 1px solid #bfdbfe;
       text-align: center;
     }
+
     .hero-formula .label {
       font-size: 0.8rem;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      color: #93c5fd;
-      margin-bottom: 6px;
-    }
-    .hero-formula .math {
-      font-size: 1.1rem;
-      font-weight: 600;
+      color: #1d4ed8;
+      margin-bottom: 4px;
     }
 
-    /* Calculator */
-    .calc-section {
-      margin-top: 20px;
-      padding: 16px;
-      border-radius: 18px;
-      background: rgba(15,23,42,0.95);
-      border: 1px solid rgba(96,165,250,0.5);
+    .hero-formula .math {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #1f2933;
     }
-    .calc-section h2 {
-      font-size: 1.1rem;
-      margin-bottom: 4px;
-    }
-    .calc-section p {
+
+    .note {
       font-size: 0.9rem;
-      color: #d1d5db;
+      color: #6b7280;
+      margin-top: 4px;
     }
+
+    /* ---------- Land / Share Illustration ---------- */
+    .land-section {
+      margin-top: 20px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1.1fr);
+      gap: 18px;
+    }
+
+    @media (max-width: 800px) {
+      .land-section {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .land-card {
+      background: var(--bg-soft);
+      border-radius: 18px;
+      border: 1px solid var(--border-soft);
+      padding: 14px 14px 16px;
+    }
+
+    .land-visual-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .land-label {
+      font-size: 0.85rem;
+      color: #4b5563;
+    }
+
+    .land-grid {
+      position: relative;
+      width: 100%;
+      max-width: 340px;
+      aspect-ratio: 1 / 1;
+      border-radius: 14px;
+      border: 2px dashed #9ca3af;
+      background-image:
+        linear-gradient(90deg, rgba(156,163,175,0.35) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(156,163,175,0.35) 1px, transparent 1px);
+      background-size: 12px 12px;
+      background-color: #f9fafb;
+      overflow: hidden;
+    }
+
+    .share-block {
+      position: absolute;
+      border-radius: 4px;
+      box-shadow: 0 1px 3px rgba(15,23,42,0.2);
+    }
+
+    .share-a { background: #fde68a; }
+    .share-b { background: #bfdbfe; }
+    .share-c { background: #bbf7d0; }
+    .share-large { background: #f9a8d4; }
+    .share-prom { background: #a5b4fc; }
+
+    /* example positions – 100 blocks grid feel */
+    .share-a { left: 6%; top: 6%; width: 18%; height: 18%; }
+    .share-b { left: 54%; top: 30%; width: 12%; height: 24%; }
+    .share-c { left: 10%; top: 60%; width: 12%; height: 12%; }
+    .share-large { left: 20%; bottom: 4%; width: 32%; height: 30%; }
+    .share-prom { right: 4%; bottom: 4%; width: 28%; height: 30%; }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 14px;
+      margin-top: 8px;
+      font-size: 0.85rem;
+      justify-content: center;
+    }
+
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #4b5563;
+    }
+
+    .legend-color {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+      border: 1px solid rgba(148,163,184,0.9);
+    }
+
+    /* ---------- Calculator ---------- */
+    .calc-section {
+      margin-top: 26px;
+      padding: 16px 16px 18px;
+      border-radius: 18px;
+      background: #fefce8;
+      border: 1px solid #facc15;
+    }
+
+    .calc-section h2 {
+      margin-top: 0;
+    }
+
     .calc-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 12px;
-      margin-top: 12px;
+      margin-top: 10px;
       align-items: flex-end;
     }
+
     .field label {
       display: block;
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       margin-bottom: 4px;
-      color: #e5e7eb;
+      color: #374151;
     }
+
     .field small {
       display: block;
       font-size: 0.75rem;
-      color: #9ca3af;
+      color: #6b7280;
     }
+
     .field input {
       width: 100%;
       padding: 7px 9px;
       border-radius: 10px;
-      border: 1px solid rgba(148,163,184,0.8);
-      background: rgba(15,23,42,0.9);
-      color: #f9fafb;
+      border: 1px solid #d1d5db;
+      background: #ffffff;
+      color: #111827;
       font-size: 0.9rem;
       outline: none;
     }
+
     .field input:focus {
-      border-color: #60a5fa;
-      box-shadow: 0 0 0 1px rgba(37,99,235,0.6);
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 0 1px rgba(37,99,235,0.25);
     }
+
     .btn {
       padding: 9px 14px;
       border-radius: 999px;
@@ -132,66 +279,72 @@
       font-size: 0.9rem;
       font-weight: 600;
       cursor: pointer;
-      background: linear-gradient(135deg, #2563eb, #22c55e);
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-green));
       color: #f9fafb;
-      box-shadow: 0 10px 25px rgba(15,23,42,0.7);
+      box-shadow: 0 8px 18px rgba(15,23,42,0.18);
       white-space: nowrap;
     }
+
     .btn:active {
       transform: translateY(1px);
-      box-shadow: 0 6px 18px rgba(15,23,42,0.9);
+      box-shadow: 0 4px 10px rgba(15,23,42,0.25);
     }
+
+    .calc-error {
+      margin-top: 6px;
+      font-size: 0.8rem;
+      color: #b91c1c;
+    }
+
     .calc-result {
       margin-top: 10px;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
       gap: 10px;
     }
+
     .calc-box {
       border-radius: 14px;
       padding: 9px 10px;
-      background: rgba(15,23,42,0.9);
-      border: 1px solid rgba(148,163,184,0.6);
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
       font-size: 0.85rem;
     }
+
     .calc-box strong {
       display: block;
       margin-bottom: 2px;
-    }
-    .calc-error {
-      margin-top: 8px;
-      font-size: 0.8rem;
-      color: #fecaca;
+      color: #111827;
     }
 
+    /* ---------- Formula diagrams ---------- */
     .split {
       display: grid;
       grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.2fr);
       gap: 18px;
-      margin-top: 20px;
-      flex-wrap: wrap;
+      margin-top: 22px;
     }
-    @media (max-width: 768px) {
+
+    @media (max-width: 800px) {
       .split {
         grid-template-columns: 1fr;
       }
     }
+
     .panel {
-      background: rgba(15,23,42,0.95);
+      background: var(--bg-soft);
       border-radius: 18px;
       padding: 14px 14px 16px;
-      border: 1px solid rgba(148,163,184,0.4);
+      border: 1px solid var(--border-soft);
     }
-    .panel h3 {
-      font-size: 1rem;
-      margin-bottom: 6px;
-    }
+
     .panel small {
       font-size: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      color: #9ca3af;
+      color: #6b7280;
     }
+
     .equation-row {
       display: flex;
       align-items: center;
@@ -201,100 +354,119 @@
       margin-top: 8px;
       font-size: 0.9rem;
     }
-    .tag {
-      padding: 4px 8px;
-      border-radius: 999px;
-      background: rgba(15,118,110,0.35);
-      border: 1px solid rgba(45,212,191,0.4);
-      font-size: 0.75rem;
-      white-space: nowrap;
-    }
+
     .box {
       border-radius: 12px;
       padding: 8px 10px;
-      background: rgba(15,23,42,0.9);
-      border: 1px dashed rgba(148,163,184,0.6);
+      background: #ffffff;
+      border: 1px dashed #cbd5e1;
       font-size: 0.85rem;
-      min-width: 110px;
+      min-width: 120px;
       text-align: center;
     }
+
     .box strong {
       display: block;
+      color: #111827;
     }
+
     .arrow {
       font-size: 1.1rem;
       opacity: 0.8;
     }
-    .note {
-      font-size: 0.85rem;
-      color: #9ca3af;
-      margin-top: 6px;
+
+    .tag {
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: #ecfdf5;
+      border: 1px solid #bbf7d0;
+      font-size: 0.8rem;
+      white-space: nowrap;
+      color: #166534;
     }
+
+    /* ---------- Scale & compare ---------- */
     .scale-section {
       margin-top: 24px;
-      padding: 14px;
+      padding: 14px 14px 18px;
       border-radius: 18px;
-      background: rgba(15,23,42,0.95);
-      border: 1px solid rgba(96,165,250,0.4);
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
     }
+
     .scale-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
       gap: 10px;
-      margin-top: 10px;
+      margin-top: 8px;
     }
+
     .chip {
       border-radius: 14px;
       padding: 10px 12px;
-      background: rgba(15,23,42,0.9);
-      border: 1px solid rgba(148,163,184,0.5);
-      font-size: 0.85rem;
+      background: #ffffff;
+      border: 1px solid #d1d5db;
+      font-size: 0.86rem;
+      color: #4b5563;
     }
+
     .chip-title {
       font-weight: 600;
-      margin-bottom: 4px;
+      margin-bottom: 2px;
+      color: #111827;
     }
+
     .chip-metric {
       font-size: 0.8rem;
-      color: #9ca3af;
+      color: #6b7280;
     }
+
     .compare {
-      margin-top: 24px;
+      margin-top: 20px;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 14px;
     }
+
     .compare-card {
       border-radius: 16px;
       padding: 12px 12px 14px;
-      background: rgba(15,23,42,0.95);
-      border: 1px solid rgba(148,163,184,0.5);
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
       font-size: 0.85rem;
+      color: #4b5563;
     }
+
     .compare-header {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
+
     .compare-header span.name {
       font-weight: 600;
+      color: #111827;
     }
+
     .compare-header span.price {
       font-size: 0.8rem;
-      color: #9ca3af;
+      color: #6b7280;
     }
+
     .badge {
       padding: 2px 7px;
       border-radius: 999px;
       font-size: 0.7rem;
-      border: 1px solid rgba(52,211,153,0.9);
-      color: #bbf7d0;
+      border: 1px solid #16a34a;
+      color: #166534;
+      background: #ecfdf5;
     }
+
     .footer-note {
-      margin-top: 20px;
-      font-size: 0.8rem;
-      color: #9ca3af;
+      margin-top: 18px;
+      font-size: 0.82rem;
+      color: #6b7280;
       text-align: center;
     }
   </style>
@@ -304,26 +476,79 @@
     <div class="card">
       <div class="pill">
         <span class="icon">📊</span>
-        <span>Market Capitalization – Visual + Calculator</span>
+        <span>Share &amp; Market Capitalization – Tamil + English</span>
       </div>
-      <h1>Market Cap எப்படி வேலை செய்கிறது (Tamil + English)</h1>
+      <h1>Share என்றால் என்ன? Market Cap எப்படி வேலை செய்கிறது?</h1>
       <p>
-        <strong>Market Capitalization (Market Cap)</strong>ன்னா, ஒரு companyக்கு market fullாக எவ்வளவு value
-        குடுக்குதுன்னு காட்டுற number. இது <em>share price</em> + <em>total number of shares</em> + company size
-        இந்த மூனையும் connect பண்ணும் simple concept.
+        Stock market newஆ இருக்கிறவர்களுக்கு easyஆ புரியணும் என்ற நோக்கத்துல இந்த page. இதுல
+        <strong>share</strong>, <strong>ownership</strong>, மற்றும் <strong>Market Capitalization (Market Cap)</strong>
+        பற்றி தமிழ் + English mixல, simpleா explain பண்ணியிருக்கோம்.
       </p>
 
       <div class="hero-formula">
-        <div class="label">Core Formula</div>
-        <div class="math">Market Cap = Share Price × Total Number of Shares</div>
+        <div class="label">Core Market Cap Formula</div>
+        <div class="math">Market Cap = Price per Share × Total Number of Shares</div>
       </div>
 
-      <!-- Calculator Section -->
+      <!-- Land / Share Illustration -->
+      <div class="land-section">
+        <div class="land-card">
+          <h2>1️⃣ Land Example – What is a Share?</h2>
+          <p>
+            ஒரு companyயை ஒரு பெரிய land மாதிரி imagine பண்ணுங்க. இந்த land முழுக்க வாங்கணும்னா ஒருத்தரால முடியாது –
+            ரொம்ப cost ஆகும். அதனால அந்த landஐ <strong>சின்ன சின்ன equal squares</strong>ஆகப் பிரிச்சு விக்கிறோம்.
+          </p>
+          <p>
+            அந்த ஒவ்வொரு small equal pieceதான் ஒரு <strong>share</strong>. யாருக்கு எத்தனை squares இருக்குதோ,
+            அவருக்கு companyயில் அவ்வளவு percentage ownership.
+          </p>
+          <p class="note">
+            Example: 100 squaresனா – ஒரு square = 1% of the company.
+          </p>
+        </div>
+
+        <div class="land-card">
+          <div class="land-visual-wrapper">
+            <div class="land-grid">
+              <div class="share-block share-a"></div>
+              <div class="share-block share-b"></div>
+              <div class="share-block share-c"></div>
+              <div class="share-block share-large"></div>
+              <div class="share-block share-prom"></div>
+            </div>
+            <div class="land-label">Big dashed square = முழு company; inside squares = individual shares.</div>
+            <div class="legend">
+              <div class="legend-item">
+                <span class="legend-color" style="background:#fde68a;"></span>
+                <span>Person A – 4% (4 squares)</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-color" style="background:#bfdbfe;"></span>
+                <span>Person B – 2%</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-color" style="background:#bbf7d0;"></span>
+                <span>Person C – 1%</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-color" style="background:#f9a8d4;"></span>
+                <span>Large Investors – 12%</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-color" style="background:#a5b4fc;"></span>
+                <span>Promoters – 16%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Calculator -->
       <div class="calc-section">
-        <h2>Interactive Calculator – Market Cap → Total Shares</h2>
+        <h2>2️⃣ Market Cap Calculator – Total Shares கண்டுபிடிக்க</h2>
         <p>
-          கீழே small calculator இருக்கு. நீங்க <strong>Market Cap (in crore)</strong> + <strong>Share Price</strong> type
-          பண்ணவுடன், அது <strong>Total Shares</strong> எவ்வளவு (crore / lakh / million / billion)ன்னு காட்டுும்.
+          Zerodha / appல நீங்க நீங்க பார்க்குறது போல <strong>Market Cap (in crore)</strong> + <strong>Price per Share</strong>
+          தெரிஞ்சா, கீழ இருக்குற calculator use பண்ணி <strong>Total Shares</strong> எவ்வளவு என்று உடனே தெரிஞ்சிக்கலாம்.
         </p>
         <div class="calc-grid">
           <div class="field">
@@ -332,9 +557,9 @@
             <small>Example: ITC approx 5,10,929 crore</small>
           </div>
           <div class="field">
-            <label for="priceInput">Share Price (₹)</label>
+            <label for="priceInput">Price per Share (₹)</label>
             <input id="priceInput" type="number" step="0.01" placeholder="உதா: 405" />
-            <small>Example: Share price of the company</small>
+            <small>Example: One share price in stock market</small>
           </div>
           <div class="field">
             <button class="btn" id="calcBtn">Calculate Total Shares</button>
@@ -343,31 +568,31 @@
         <div id="calcError" class="calc-error"></div>
         <div id="calcResult" class="calc-result" style="display:none;">
           <div class="calc-box">
-            <strong>Total Shares (crore)</strong>
+            <strong>Total Shares (in crore)</strong>
             <span id="outCrore"></span>
           </div>
           <div class="calc-box">
-            <strong>Total Shares (lakh)</strong>
+            <strong>Total Shares (in lakh)</strong>
             <span id="outLakh"></span>
           </div>
           <div class="calc-box">
-            <strong>Total Shares (million)</strong>
+            <strong>Total Shares (in million)</strong>
             <span id="outMillion"></span>
           </div>
           <div class="calc-box">
-            <strong>Total Shares (billion)</strong>
+            <strong>Total Shares (in billion)</strong>
             <span id="outBillion"></span>
           </div>
         </div>
       </div>
 
+      <!-- Formula diagrams -->
       <div class="split">
-        <!-- Forward direction -->
         <div class="panel">
-          <small>Illustration ① – Company → Market Cap</small>
-          <h3>Company → Shares → Market Cap</h3>
+          <small>Illustration – Company → Market Cap</small>
+          <h3>Company → Total Shares → Market Cap</h3>
           <p class="note">
-            இங்க situation என்னனா, companyல already எவ்வளவு shares இருக்கு என்று தெரியும். அப்போ Market Cap கணக்கு easy.
+            இங்க already companyல எவ்வளவு shares issue பண்ணியிருக்காங்க தெரியும்.
           </p>
           <div class="equation-row">
             <div class="box">
@@ -376,72 +601,73 @@
             </div>
             <span class="arrow">×</span>
             <div class="box">
-              <strong>Share Price</strong>
-              <span>(உதா: ₹100)</span>
+              <strong>Price per Share</strong>
+              <span>(₹100)</span>
             </div>
             <span class="arrow">=</span>
             <div class="box">
               <strong>Market Cap</strong>
-              <span>(₹5,000 crore)</span>
+              <span>₹5,000 crore</span>
             </div>
           </div>
           <p class="note">
-            Tamil idea: “Company-oda ellaa shares-um same share price-la sell pannomna, total evlo money varum?”
-            அந்த total value தான் <strong>Market Cap</strong>.
+            Tamil idea: “Company-oda ellaa shares-um same priceக்கு விக்கறோம்னா total எவ்வளவு
+            money கிடைக்கும்?” – அந்த total value தான் <strong>Market Cap</strong>.
           </p>
         </div>
 
-        <!-- Reverse direction -->
         <div class="panel">
-          <small>Illustration ② – Market Cap → Total Shares</small>
-          <h3>Market Cap → Share Price → Total Shares</h3>
+          <small>Illustration – Market Cap → Total Shares</small>
+          <h3>Market Cap → Price per Share → Total Shares</h3>
           <p class="note">
-            நிறைய app / websiteல <em>Market Cap</em> + <em>Share Price</em> மட்டும் காட்டும். அப்போ total shares கண்டுபிடிக்க இந்த
-            reverse formula use பண்ணலாம்.
+            Websiteல <strong>Market Cap + Price per Share</strong> மட்டும் இருந்தாலும் இந்த reverse formula use பண்ணி
+            total shares தெரியலாம்.
           </p>
           <div class="equation-row">
             <div class="box">
               <strong>Market Cap</strong>
-              <span>(உதா: ₹10,000 crore)</span>
+              <span>₹10,000 crore</span>
             </div>
             <span class="arrow">÷</span>
             <div class="box">
-              <strong>Share Price</strong>
-              <span>(உதா: ₹40)</span>
+              <strong>Price per Share</strong>
+              <span>₹40</span>
             </div>
             <span class="arrow">=</span>
             <div class="box">
               <strong>Total Shares</strong>
-              <span>(250 crore)</span>
+              <span>250 crore</span>
             </div>
           </div>
           <p class="note">
-            Formula in words: <span class="tag">Total Shares = Market Cap ÷ Share Price</span>
+            Formula in words: <span class="tag">Total Shares = Market Cap ÷ Price per Share</span>
           </p>
         </div>
       </div>
 
+      <!-- Size & compare -->
       <div class="scale-section">
-        <h2>Company size – Large-Cap / Mid-Cap / Small-Cap</h2>
+        <h2>3️⃣ Company Size – Large-Cap / Mid-Cap / Small-Cap</h2>
         <p>
-          Market Cap use பண்ணி தான் நாம company-யை <strong>Large-Cap</strong>, <strong>Mid-Cap</strong>,
-          <strong>Small-Cap</strong>ன்னு classify பண்ணுறோம். இங்க முக்கியம்: size decide ஆகுறது Market Cap based, share price based இல்லை.
+          Market Cap use பண்ணி தான் நாம companyயை <strong>Large-Cap</strong>,
+          <strong>Mid-Cap</strong>, <strong>Small-Cap</strong>ன்னு பேசுறோம். Size decide ஆகுறது
+          Market Cap based, share price based இல்லை.
         </p>
         <div class="scale-grid">
           <div class="chip">
             <div class="chip-title">Large-Cap Company</div>
             <div class="chip-metric">Market Cap ≥ ₹20,000 crore</div>
-            <p>Usually stable companies, risk கொஞ்சம் kammi, long-term core portfolioக்கு நல்லது.</p>
+            <p>Usually stable, risk கொஞ்சம் kammi; long-term core portfolioக்கு நல்ல base.</p>
           </div>
           <div class="chip">
             <div class="chip-title">Mid-Cap Company</div>
             <div class="chip-metric">Market Cap ≈ ₹5,000–₹20,000 crore</div>
-            <p>Balance zone – medium risk, நல்ல growth potential இருக்கும்.</p>
+            <p>Balance zone – medium risk, decent to high growth potential.</p>
           </div>
           <div class="chip">
             <div class="chip-title">Small-Cap Company</div>
             <div class="chip-metric">Market Cap &lt; ₹5,000 crore</div>
-            <p>High risk, high volatility, ஆனால் correct company select பண்ணினா high return வாய்ப்பு.</p>
+            <p>High risk, high volatility; ஆனால் சரியான research பண்ணினா high return வாய்ப்பு.</p>
           </div>
         </div>
       </div>
@@ -450,7 +676,7 @@
         <div class="compare-card">
           <div class="compare-header">
             <span class="name">Company A</span>
-            <span class="price">Share Price: ₹50</span>
+            <span class="price">Price per Share: ₹50</span>
           </div>
           <p>
             Total Shares: <strong>1,000 crore</strong><br />
@@ -461,7 +687,7 @@
         <div class="compare-card">
           <div class="compare-header">
             <span class="name">Company B</span>
-            <span class="price">Share Price: ₹5,000</span>
+            <span class="price">Price per Share: ₹5,000</span>
           </div>
           <p>
             Total Shares: <strong>10 crore</strong><br />
@@ -471,16 +697,10 @@
         </div>
       </div>
 
-      <p class="note" style="margin-top: 10px;">
-        இங்க ஒரு important point: Company A share price low (₹50), Company B share price high (₹5,000) இருந்தாலும்,
-        இரண்டுக்கும் <strong>Market Cap same</strong> – ₹50,000 crore. So, “share price cheap-na company small”,
-        “share price costly-na company big”ன்னு think பண்ணக்கூடாது.
+      <p class="footer-note">
+        Share price lowனா cheap companyன்னு கூடாது, highனா பெரிய companyன்னு கூடாது. Company size புரிஞ்சிக்க
+        first step: <strong>Market Cap</strong>.
       </p>
-
-      <div class="footer-note">
-        Tip: எந்த stockயும் analyse பண்ணும்போது, முதல்ல <strong>Market Cap</strong> பாருங்க. அப்புறம் தான் share price, growth,
-        profit, debt, etc. பார்ப்பது. Market Cap தான் company size புரிஞ்சிக்க first step.
-      </div>
     </div>
   </div>
 
@@ -515,13 +735,11 @@
           return;
         }
         if (isNaN(price) || price <= 0) {
-          errorDiv.textContent = 'Please enter a valid Share Price (positive number).';
+          errorDiv.textContent = 'Please enter a valid Price per Share (positive number).';
           return;
         }
 
-        // Total shares in crore (since market cap is given in crore)
-        const sharesCrore = mc / price;
-
+        const sharesCrore = mc / price;       // Market Cap in crore / price
         const sharesLakh = sharesCrore * 100;
         const sharesMillion = sharesCrore * 10;
         const sharesBillion = sharesCrore / 100;
